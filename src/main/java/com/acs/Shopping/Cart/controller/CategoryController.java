@@ -82,6 +82,7 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> updateCategory(@RequestBody Category category, @PathVariable Long id){
         try{
             Category updatedCategory = categoryService.updateCategory(category, id);
+            System.out.println(updatedCategory);
             return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.SUCCESS, updatedCategory));
         }catch (ResourceNotFoundException e){
             return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,INTERNAL_SERVER_ERROR));
