@@ -14,6 +14,7 @@ import lombok.NoArgsConstructor;
 import lombok.Setter;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Getter
@@ -30,6 +31,7 @@ public class Product {
     private BigDecimal price;
     private int inventory;
     private String description;
+    private LocalDateTime createdAt;
 
     @ManyToOne(cascade = CascadeType.ALL)
     @JoinColumn(name = "category_id")
@@ -39,13 +41,14 @@ public class Product {
     @OneToMany(mappedBy = "product" , cascade = CascadeType.ALL, orphanRemoval = true)
     private List<Image> images;
 
-    public Product(String name, String brand, String description, BigDecimal price, int inventory, Category category) {
+    public Product(String name, String brand, String description, BigDecimal price, int inventory, Category category,LocalDateTime createdAt) {
         this.brand = brand;
         this.name = name;
         this.description = description;
         this.price = price;
         this.inventory = inventory;
         this.category = category;
+        this.createdAt = createdAt;
     }
 }
 

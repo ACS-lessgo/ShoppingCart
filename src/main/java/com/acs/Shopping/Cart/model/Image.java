@@ -14,6 +14,7 @@ import lombok.Setter;
 import org.springframework.beans.factory.annotation.Autowired;
 
 import java.sql.Blob;
+import java.time.LocalDateTime;
 
 @Getter
 @Setter
@@ -35,4 +36,7 @@ public class Image {
     @ManyToOne
     @JoinColumn(name = "product_id")
     private Product product;
+
+    LocalDateTime createdAt;
+    LocalDateTime updatedAt;
 }
