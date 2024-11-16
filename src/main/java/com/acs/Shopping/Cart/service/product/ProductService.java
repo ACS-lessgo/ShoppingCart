@@ -1,7 +1,7 @@
 package com.acs.Shopping.Cart.service.product;
 
 import com.acs.Shopping.Cart.Repository.CategoryRepository;
-import com.acs.Shopping.Cart.exceptions.ProductNotFoundException;
+import com.acs.Shopping.Cart.exceptions.ResourceNotFoundException;
 import com.acs.Shopping.Cart.model.Category;
 import com.acs.Shopping.Cart.model.Product;
 import com.acs.Shopping.Cart.Repository.ProductRepository;
@@ -32,7 +32,8 @@ public class ProductService implements IProductService{
                     Category newCategory = new Category(request.getCategory().getName());
                     return categoryRepository.save(newCategory);
                 });
-        return null;
+        request.setCategory(category);
+        return productRepository.save(createProduct(request, category));
     }
 
     private Product createProduct(AddProductRequest request , Category category){
@@ -48,12 +49,12 @@ public class ProductService implements IProductService{
 
     @Override
     public Product getProductById(Long id) {
-        return productRepository.findById(id).orElseThrow(()-> new ProductNotFoundException(ShoppingCartConstants.PRODUCT_NOT_FOUND));
+        return productRepository.findById(id).orElseThrow(()-> new ResourceNotFoundException(ShoppingCartConstants.PRODUCT_NOT_FOUND));
     }
 
     @Override
     public void deleteProductById(Long id) {
-        productRepository.findById(id).ifPresentOrElse(productRepository :: delete ,() -> {throw new ProductNotFoundException(ShoppingCartConstants.PRODUCT_NOT_FOUND);});
+        productRepository.findById(id).ifPresentOrElse(productRepository :: delete ,() -> {throw new ResourceNotFoundException(ShoppingCartConstants.PRODUCT_NOT_FOUND);});
     }
 
     @Override
@@ -62,7 +63,7 @@ public class ProductService implements IProductService{
         return productRepository.findById(productId)
                 .map(existingProduct -> updateExistingProduct(existingProduct,request))
                 .map(productRepository :: save)
-                .orElseThrow(()->new ProductNotFoundException(ShoppingCartConstants.PRODUCT_NOT_FOUND));
+                .orElseThrow(()->new ResourceNotFoundException(ShoppingCartConstants.PRODUCT_NOT_FOUND));
     }
 
     private Product updateExistingProduct(Product existingProduct, ProductUpdateRequest request){
@@ -95,12 +96,12 @@ public class ProductService implements IProductService{
 
     @Override
     public List<Product> getProductsByCategoryAndBrand(String category, String brand) {
-        return productRepository.findByCategoryAndBrand(category,brand);
+        return productRepository.findByCategoryNameAndBrand(category,brand);
     }
 
     @Override
     public List<Product> getProductByName(String productName) {
-        return productRepository.findByProductName(productName);
+        return productRepository.findByName(productName);
     }
 
     @Override

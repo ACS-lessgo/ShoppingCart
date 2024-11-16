@@ -50,5 +50,15 @@ public class Product {
         this.category = category;
         this.createdAt = createdAt;
     }
+
+    public Product(String name, String brand, String description, BigDecimal price, int inventory, Category category) {
+        this.brand = brand;
+        this.name = name;
+        this.description = description;
+        this.price = price;
+        this.inventory = inventory;
+        this.category = category;
+        this.createdAt = LocalDateTime.now();
+    }
 }
 

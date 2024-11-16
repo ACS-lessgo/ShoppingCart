@@ -5,6 +5,7 @@ import com.acs.Shopping.Cart.model.Image;
 import lombok.Data;
 
 import java.math.BigDecimal;
+import java.time.LocalDateTime;
 import java.util.List;
 
 @Data
@@ -17,4 +18,5 @@ public class ProductUpdateRequest {
     private String description;
     private Category category;
     private List<Image> images;
+    private LocalDateTime updatedAt;
 }
