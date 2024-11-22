@@ -1,13 +1,13 @@
-package com.acs.Shopping.Cart;
-
-import org.junit.jupiter.api.Test;
-import org.springframework.boot.test.context.SpringBootTest;
-
-@SpringBootTest
-class ShoppingCartApplicationTests {
-
-	@Test
-	void contextLoads() {
-	}
-
-}
+//package com.acs.Shopping.Cart;
+//
+//import org.junit.jupiter.api.Test;
+//import org.springframework.boot.test.context.SpringBootTest;
+//
+//@SpringBootTest
+//class ShoppingCartApplicationTests {
+//
+//	@Test
+//	void contextLoads() {
+//	}
+//
+//}

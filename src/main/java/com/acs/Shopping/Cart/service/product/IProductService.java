@@ -1,5 +1,6 @@
 package com.acs.Shopping.Cart.service.product;
 
+import com.acs.Shopping.Cart.dto.ProductDto;
 import com.acs.Shopping.Cart.model.Product;
 import com.acs.Shopping.Cart.request.AddProductRequest;
 import com.acs.Shopping.Cart.request.ProductUpdateRequest;
@@ -21,4 +22,7 @@ public interface IProductService {
     List<Product> getProductByBrandAndName(String brand,String productName);
 
     Long countProductsByBrandAndName(String brand,String name);
+
+    ProductDto convertToDto(Product product);
+    List<ProductDto> getConvertedProducts(List<Product> products);
 }
