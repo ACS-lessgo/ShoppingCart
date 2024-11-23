@@ -29,20 +29,20 @@ public class Cart {
     private Set<CartItem> cartItems;
 
 
-    private void addItem(CartItem item){
+    public void addItem(CartItem item){
         this.cartItems.add(item);
         item.setCart(this);
         updateTotalAmount();
     }
 
-    private void removeItem(CartItem item){
+    public void removeItem(CartItem item){
         this.cartItems.remove(item);
         item.setCart(null);
         updateTotalAmount();
     }
 
 
-    private void updateTotalAmount(){
+    public void updateTotalAmount(){
         this.totalAmount = cartItems.stream().map(item -> {
             BigDecimal unitPrice = item.getUnitPrice();
             if(unitPrice == null) return BigDecimal.ZERO;
