@@ -32,9 +32,9 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> getAllCategories(){
         try{
             List<Category> categories = categoryService.getAllCategories();
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,categories));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,categories,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (Exception e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,INTERNAL_SERVER_ERROR));
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.HTTP_INTERNAL_SERVER_ERROR,null, e.getMessage()));
         }
     }
 
@@ -42,9 +42,9 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> addCategory(@RequestBody  Category category){
         try {
             Category savedCategory = categoryService.addCategory(category);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.SUCCESS, savedCategory));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,savedCategory,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (ResourceExistsException e){
-            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse(ShoppingCartConstants.ALREADY_EXISTS, e.getMessage()));
+            return ResponseEntity.status(HttpStatus.CONFLICT).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST, e.getMessage()));
         }
     }
 
@@ -52,9 +52,9 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> getCategoryById(@PathVariable Long id){
         try{
             Category category = categoryService.getCategoryById(id);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,category));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,category,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (ResourceNotFoundException e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,INTERNAL_SERVER_ERROR));
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.HTTP_INTERNAL_SERVER_ERROR,null, e.getMessage()));
         }
     }
 
@@ -62,9 +62,9 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> getCategoryByName(@PathVariable String name){
         try{
             Category category = categoryService.getCategoryByName(name);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,category));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,category,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (ResourceNotFoundException e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,INTERNAL_SERVER_ERROR));
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.HTTP_INTERNAL_SERVER_ERROR,null, e.getMessage()));
         }
     }
 
@@ -72,9 +72,9 @@ public class CategoryController {
     public ResponseEntity<ApiResponse> deleteCategory(@PathVariable Long id){
         try{
             categoryService.deleteCategory(id);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.SUCCESS,null));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,null));
         }catch (ResourceNotFoundException e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,INTERNAL_SERVER_ERROR));
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.HTTP_INTERNAL_SERVER_ERROR,null, e.getMessage()));
         }
     }
 
@@ -83,9 +83,9 @@ public class CategoryController {
         try{
             Category updatedCategory = categoryService.updateCategory(category, id);
             System.out.println(updatedCategory);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.SUCCESS, updatedCategory));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK, updatedCategory,ShoppingCartConstants.UPDATE_SUCCESS));
         }catch (ResourceNotFoundException e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,INTERNAL_SERVER_ERROR));
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.HTTP_INTERNAL_SERVER_ERROR,null, e.getMessage()));
         }
     }
 }

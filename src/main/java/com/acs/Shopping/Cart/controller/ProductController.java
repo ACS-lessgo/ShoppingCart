@@ -38,9 +38,9 @@ public class ProductController {
         try{
             List<Product> products = productService.getAllProducts();
             List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,convertedProducts));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,convertedProducts,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (ResourceNotFoundException e){
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.ERROR,null));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
         }
     }
 
@@ -49,9 +49,9 @@ public class ProductController {
         try{
             Product product = productService.getProductById(productId);
             ProductDto productDto = productService.convertToDto(product);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,productDto));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,productDto,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (ResourceNotFoundException e){
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.ERROR,null));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
         }
     }
 
@@ -60,9 +60,9 @@ public class ProductController {
         try{
             Product createProduct = productService.addProduct(product);
             ProductDto productDto = productService.convertToDto(createProduct);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.SUCCESS, productDto));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK, productDto));
         }catch (Exception e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,null));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
         }
     }
 
@@ -71,9 +71,9 @@ public class ProductController {
         try{
             Product updateProduct = productService.updateProductById(product, productId);
             ProductDto productDto = productService.convertToDto(updateProduct);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.SUCCESS, productDto));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK, productDto,ShoppingCartConstants.UPDATE_SUCCESS));
         }catch (ResourceNotFoundException e){
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.ERROR,null));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
         }
     }
 
@@ -81,9 +81,9 @@ public class ProductController {
     public ResponseEntity<ApiResponse> deleteProduct(@PathVariable Long productId){
         try{
             productService.deleteProductById(productId);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.SUCCESS,null));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,null,ShoppingCartConstants.DELETE_SUCCESS));
         }catch (ResourceNotFoundException e){
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.ERROR,null));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
         }
     }
 
@@ -92,12 +92,12 @@ public class ProductController {
             try{
                 List<Product> products = productService.getProductByBrandAndName(brandName, productName);
                 if(products.isEmpty()){
-                    return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.PRODUCT_NOT_FOUND,null));
+                    return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_NOT_FOUND,null,ShoppingCartConstants.PRODUCT_NOT_FOUND));
                 }
                 List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
-                return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,convertedProducts));
+                return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,convertedProducts,ShoppingCartConstants.RESOURCE_FOUND));
             }catch (Exception e){
-                return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,e.getMessage()));
+                return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
             }
     }
 
@@ -106,12 +106,12 @@ public class ProductController {
         try{
             List<Product> products = productService.getProductsByCategoryAndBrand(categoryName, brandName);
             if(products.isEmpty()){
-                return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.PRODUCT_NOT_FOUND,null));
+                return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_NOT_FOUND,null,ShoppingCartConstants.PRODUCT_NOT_FOUND));
             }
             List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,convertedProducts));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,convertedProducts,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (Exception e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,e.getMessage()));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
         }
     }
 
@@ -120,12 +120,12 @@ public class ProductController {
         try{
             List<Product> products = productService.getProductByName(productName);
             if(products.isEmpty()){
-                return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.PRODUCT_NOT_FOUND,null));
+                return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_NOT_FOUND,null,ShoppingCartConstants.PRODUCT_NOT_FOUND));
             }
             List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,convertedProducts));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,convertedProducts,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (Exception e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,e.getMessage()));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
         }
     }
 
@@ -134,12 +134,12 @@ public class ProductController {
         try{
             List<Product> products = productService.getProductsByBrand(brandName);
             if(products.isEmpty()){
-                return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.PRODUCT_NOT_FOUND,null));
+                return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_NOT_FOUND,null,ShoppingCartConstants.PRODUCT_NOT_FOUND));
             }
             List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,convertedProducts));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,convertedProducts,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (Exception e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,e.getMessage()));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
         }
     }
 
@@ -148,12 +148,12 @@ public class ProductController {
         try {
             List<Product> products = productService.getProductsByCategory(category);
             if(products.isEmpty()){
-                return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.PRODUCT_NOT_FOUND,null));
+                return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_NOT_FOUND,null,ShoppingCartConstants.PRODUCT_NOT_FOUND));
             }
             List<ProductDto> convertedProducts = productService.getConvertedProducts(products);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,convertedProducts));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,convertedProducts,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (Exception e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,e.getMessage()));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
         }
     }
 
@@ -161,9 +161,9 @@ public class ProductController {
     public ResponseEntity<ApiResponse> countProductsByBrandAndName(@RequestParam String brandName , @RequestParam String productName){
         try {
             var count = productService.countProductsByBrandAndName(brandName, productName);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.RESOURCE_FOUND,count));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,count,ShoppingCartConstants.RESOURCE_FOUND));
         }catch (Exception e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.ERROR,e.getMessage()));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST,null, e.getMessage()));
         }
     }
 }

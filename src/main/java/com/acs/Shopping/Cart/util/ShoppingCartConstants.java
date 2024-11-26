@@ -3,6 +3,7 @@ package com.acs.Shopping.Cart.util;
 public class ShoppingCartConstants {
     private ShoppingCartConstants() {}
 
+    // db messages
     public static final String PRODUCT_NOT_FOUND = "Product Not Found!!";
     public static final String CATEGORY_NOT_FOUND = "Category Not Found!!";
     public static final String ALREADY_EXISTS = "Already Exists!!";
@@ -17,7 +18,21 @@ public class ShoppingCartConstants {
     public static final String DELETE_FAILURE = "Delete Failure";
     public static final String DELETE_SUCCESS = "Delete Success";
     public static final String RESOURCE_FOUND = "Resource Found";
+    public static final String CART_NOT_FOUND = "Cart not found";
+    public static final String CART_CLEARED = "Cart cleared";
+    public static final String ITEM_ADDED_TO_CART = "Item added to cart successfully";
+    public static final String ITEM_DELETED_FROM_CART = "Item deleted from cart successfully";
+    public static final String ORDER_NOT_FOUND = "Order not found";
+
+    // http codes
+    public static final int HTTP_OK = 200;
+    public static final int HTTP_CREATED = 201;
+    public static final int HTTP_BAD_REQUEST = 400;
+    public static final int HTTP_UNAUTHORIZED = 401;
+    public static final int HTTP_NOT_FOUND = 404;
+    public static final int HTTP_INTERNAL_SERVER_ERROR = 500;
+
+    // messages
     public static final String ERROR = "Error";
     public static final String SUCCESS ="Success";
-    public static final String CART_NOT_FOUND = "Cart not found";
 }

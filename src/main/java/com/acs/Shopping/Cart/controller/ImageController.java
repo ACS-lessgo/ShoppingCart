@@ -37,9 +37,9 @@ public class ImageController {
     public ResponseEntity<ApiResponse> saveImages(@RequestParam List<MultipartFile> files ,@RequestParam Long productId){
         try {
             List<ImageDto> imageDtos = imageService.saveImage(files, productId);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.UPLOAD_SUCCESS, imageDtos));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK, imageDtos,ShoppingCartConstants.UPLOAD_SUCCESS));
         }catch (Exception e){
-            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.UPLOAD_FAILURE, e.getMessage()));
+            return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST, e.getMessage()));
         }
     }
 
@@ -62,12 +62,12 @@ public class ImageController {
             Image image = imageService.getImageById(imageId);
             if (image != null) {
                 imageService.updateImage(file, imageId);
-                return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.UPDATE_SUCCESS, null));
+                return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK, null,ShoppingCartConstants.UPDATE_SUCCESS));
             }
         }catch (ResourceNotFoundException e){
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.UPDATE_FAILURE, e.getMessage()));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST, e.getMessage()));
         }
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.UPDATE_FAILURE, null));
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST, null));
     }
 
     @DeleteMapping("{imageId}/delete")
@@ -76,11 +76,11 @@ public class ImageController {
             Image image = imageService.getImageById(imageId);
             if (image != null) {
                 imageService.deleteImageById(imageId);
-                return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.DELETE_SUCCESS,null));
+                return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,null,ShoppingCartConstants.DELETE_SUCCESS));
             }
         }catch (ResourceNotFoundException e){
-            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.DELETE_FAILURE, e.getMessage()));
+            return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST, e.getMessage()));
         }
-        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.DELETE_FAILURE, null));
+        return ResponseEntity.status(INTERNAL_SERVER_ERROR).body(new ApiResponse(ShoppingCartConstants.HTTP_BAD_REQUEST, null));
     }
 }

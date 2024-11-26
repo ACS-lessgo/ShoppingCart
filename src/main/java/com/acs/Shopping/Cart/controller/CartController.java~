@@ -37,7 +37,7 @@ public class CartController {
     public ResponseEntity<ApiResponse> clearCart(@PathVariable Long cartId){
         try {
             cartService.clearCart(cartId);
-            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,null,ShoppingCartConstants.CART_CLEARED));
+            return ResponseEntity.ok(new ApiResponse(ShoppingCartConstants.HTTP_OK,null));
         } catch (ResourceNotFoundException e) {
             return ResponseEntity.status(NOT_FOUND).body(new ApiResponse(ShoppingCartConstants.HTTP_NOT_FOUND,null,e.getMessage()));
         }
