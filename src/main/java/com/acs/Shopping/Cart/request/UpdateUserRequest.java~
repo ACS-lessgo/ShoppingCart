@@ -1,0 +1,6 @@
+package com.acs.Shopping.Cart.request;
+
+public class UpdateUserRequest {
+    private String firstName;
+    private String lastName;
+}
