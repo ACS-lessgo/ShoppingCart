@@ -1,12 +1,16 @@
 package com.acs.Shopping.Cart.service.user;
 
 import com.acs.Shopping.Cart.Repository.UserRepository;
+import com.acs.Shopping.Cart.dto.UserDto;
 import com.acs.Shopping.Cart.exceptions.ResourceNotFoundException;
+import com.acs.Shopping.Cart.exceptions.ResourceExistsException;
 import com.acs.Shopping.Cart.model.User;
 import com.acs.Shopping.Cart.request.CreateUserRequest;
 import com.acs.Shopping.Cart.request.UpdateUserRequest;
 import com.acs.Shopping.Cart.util.ShoppingCartConstants;
 import lombok.RequiredArgsConstructor;
+
+import org.modelmapper.ModelMapper;
 import org.springframework.stereotype.Service;
 
 import java.util.Optional;
@@ -16,6 +20,7 @@ import java.util.Optional;
 public class UserService implements IUserService{
 
     private final UserRepository userRepository;
+    private final ModelMapper modelMapper;
 
     @Override
     public User getUserById(Long userId) {
@@ -34,7 +39,7 @@ public class UserService implements IUserService{
                     user.setLastName(request.getLastName());
                     user.setPassword(request.getPassword());
                     return userRepository.save(user);
-                }).orElseThrow(() -> new ResourceNotFoundException(String.format(ShoppingCartConstants.USER_ALREADY_EXISTS,request.getEmail())));
+                }).orElseThrow(() -> new ResourceExistsException(String.format(ShoppingCartConstants.USER_ALREADY_EXISTS,request.getEmail())));
     }
 
     @Override
@@ -52,5 +57,10 @@ public class UserService implements IUserService{
                 ifPresentOrElse(userRepository :: delete,
                         () -> {throw new ResourceNotFoundException(ShoppingCartConstants.USER_NOT_FOUND);
                 });
+    }
+
+    @Override
+    public UserDto convertUsertoDto(User user){
+        return modelMapper.map(user,UserDto.class);
     }
 }
